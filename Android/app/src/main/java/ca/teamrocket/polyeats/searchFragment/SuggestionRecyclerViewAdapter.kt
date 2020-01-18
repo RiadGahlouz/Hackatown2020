@@ -6,20 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ca.teamrocket.polyeats.R
+import ca.teamrocket.polyeats.network.models.Suggestion
 
 
 import ca.teamrocket.polyeats.searchFragment.SearchFragment.OnListFragmentInteractionListener
-import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent.SuggestionItem
 
 import kotlinx.android.synthetic.main.fragment_suggestion.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [SuggestionItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Suggestion] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
 class SuggestionRecyclerViewAdapter(
-    private val mValues: List<SuggestionItem>,
+    private val mValues: List<Suggestion>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<SuggestionRecyclerViewAdapter.ViewHolder>() {
 
@@ -27,7 +27,7 @@ class SuggestionRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as SuggestionItem
+            val item = v.tag as Suggestion
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -42,8 +42,7 @@ class SuggestionRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mContentView.text = item.name
 
         with(holder.mView) {
             tag = item
@@ -54,7 +53,6 @@ class SuggestionRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
         val mContentView: TextView = mView.content
 
         override fun toString(): String {

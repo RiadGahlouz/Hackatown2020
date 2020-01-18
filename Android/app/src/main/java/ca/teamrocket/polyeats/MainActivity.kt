@@ -11,9 +11,9 @@ import androidx.navigation.ui.setupWithNavController
 import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
 import ca.teamrocket.polyeats.network.models.Resto
+import ca.teamrocket.polyeats.network.models.Suggestion
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
-import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
 
     lateinit var requestQueue: RequestQueue
 
-    override fun onListFragmentInteraction(item: SearchContent.SuggestionItem?) {
+    override fun onListFragmentInteraction(item: Suggestion?) {
         Log.d("SEARCH", "click")
     }
 
