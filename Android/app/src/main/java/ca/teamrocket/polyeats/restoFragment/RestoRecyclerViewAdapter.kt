@@ -4,22 +4,23 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import ca.teamrocket.polyeats.R
+import ca.teamrocket.polyeats.network.models.Resto
 
 
 import ca.teamrocket.polyeats.restoFragment.RestoFragment.OnListFragmentInteractionListener
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent.RestoItem
 
 import kotlinx.android.synthetic.main.fragment_resto.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [RestoItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Resto] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
 class RestoRecyclerViewAdapter(
-    private val mValues: List<RestoItem>,
+    private val mValues: List<Resto>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<RestoRecyclerViewAdapter.ViewHolder>() {
 
@@ -27,7 +28,7 @@ class RestoRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as RestoItem
+            val item = v.tag as Resto
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -42,8 +43,12 @@ class RestoRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        // val imgID = holder.mImageView.context.resources.getIdentifier(item.id , "drawable", holder.mImageView.context.packageName)
+        // holder.mImageView.setImageResource(imgID)
+        holder.mNameView.text = item.name
+        holder.mHourView.text = item.hours
+        // todo: in red if outside opening hours
+        holder.mPlaceView.text = item.location
 
         with(holder.mView) {
             tag = item
@@ -54,11 +59,13 @@ class RestoRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
+        val mImageView: ImageView = mView.restoLogo
+        val mNameView: TextView = mView.restoName
+        val mHourView: TextView = mView.restoHours
+        val mPlaceView: TextView = mView.restoPlace
 
         override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+            return super.toString() + " '" + mNameView.text + "'"
         }
     }
 }

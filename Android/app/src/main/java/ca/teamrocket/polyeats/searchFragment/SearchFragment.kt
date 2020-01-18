@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.teamrocket.polyeats.R
-import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent
+import ca.teamrocket.polyeats.network.models.Suggestion
 
-import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent.SuggestionItem
+import java.util.ArrayList
 
 /**
  * A fragment representing a list of Items.
@@ -21,9 +21,8 @@ import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent.Suggestion
  */
 class SearchFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
-
+    val suggestions: MutableList<Suggestion> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +46,7 @@ class SearchFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = SuggestionRecyclerViewAdapter(SearchContent.ITEMS, listener)
+                adapter = SuggestionRecyclerViewAdapter(suggestions, listener)
             }
         }
         return view
@@ -80,7 +79,7 @@ class SearchFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: SuggestionItem?)
+        fun onListFragmentInteraction(item: Suggestion?)
     }
 
     companion object {

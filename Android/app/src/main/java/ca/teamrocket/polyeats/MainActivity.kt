@@ -2,7 +2,6 @@ package ca.teamrocket.polyeats
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,20 +9,27 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
+import ca.teamrocket.polyeats.network.models.Resto
+import ca.teamrocket.polyeats.network.models.Suggestion
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
-import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity(),
     HistoryFragment.OnListFragmentInteractionListener,
     RestoFragment.OnListFragmentInteractionListener,
     SearchFragment.OnListFragmentInteractionListener{
-    override fun onListFragmentInteraction(item: SearchContent.SuggestionItem?) {
+
+    lateinit var requestQueue: RequestQueue
+
+    override fun onListFragmentInteraction(item: Suggestion?) {
         Log.d("SEARCH", "click")
     }
 
-    override fun onListFragmentInteraction(item: RestoContent.RestoItem?) {
+    override fun onListFragmentInteraction(item: Resto?) {
         Log.d("RESTO", "click")
     }
 
@@ -33,6 +39,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestQueue = Volley.newRequestQueue(this)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
