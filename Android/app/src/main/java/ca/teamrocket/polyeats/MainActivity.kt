@@ -12,7 +12,6 @@ import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
 import ca.teamrocket.polyeats.network.models.Resto
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent
 import com.android.volley.RequestQueue

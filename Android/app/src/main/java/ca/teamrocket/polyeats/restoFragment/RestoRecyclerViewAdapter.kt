@@ -10,12 +10,11 @@ import ca.teamrocket.polyeats.network.models.Resto
 
 
 import ca.teamrocket.polyeats.restoFragment.RestoFragment.OnListFragmentInteractionListener
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent.RestoItem
 
 import kotlinx.android.synthetic.main.fragment_resto.view.*
 
 /**
- * [RecyclerView.Adapter] that can display a [RestoItem] and makes a call to the
+ * [RecyclerView.Adapter] that can display a [Resto] and makes a call to the
  * specified [OnListFragmentInteractionListener].
  * TODO: Replace the implementation with code for your data type.
  */
