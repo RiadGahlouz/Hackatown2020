@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
+import ca.teamrocket.polyeats.network.models.Resto
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
 import ca.teamrocket.polyeats.restoFragment.resto.RestoContent
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity(),
         Log.d("SEARCH", "click")
     }
 
-    override fun onListFragmentInteraction(item: RestoContent.RestoItem?) {
+    override fun onListFragmentInteraction(item: Resto?) {
         Log.d("RESTO", "click")
     }
 

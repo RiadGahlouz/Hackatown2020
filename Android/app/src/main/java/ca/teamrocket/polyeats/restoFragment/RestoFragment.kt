@@ -14,7 +14,6 @@ import ca.teamrocket.polyeats.MainActivity
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.Backend
 
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent.RestoItem
 import java.util.ArrayList
 import ca.teamrocket.polyeats.network.models.Resto
 
@@ -94,7 +93,7 @@ class RestoFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: RestoItem?)
+        fun onListFragmentInteraction(item: Resto?)
     }
 
     companion object {
