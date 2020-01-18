@@ -1,0 +1,7 @@
+
+# Build files
+target/
+
+# CLion files
+./idea
+
