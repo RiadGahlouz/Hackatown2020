@@ -2,6 +2,7 @@ package ca.teamrocket.polyeats.restoFragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,10 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import ca.teamrocket.polyeats.MainActivity
 import ca.teamrocket.polyeats.R
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent
+import ca.teamrocket.polyeats.network.Backend
 
 import ca.teamrocket.polyeats.restoFragment.resto.RestoContent.RestoItem
+import java.util.ArrayList
+import ca.teamrocket.polyeats.network.models.Resto
+
 
 /**
  * A fragment representing a list of Items.
@@ -21,17 +26,26 @@ import ca.teamrocket.polyeats.restoFragment.resto.RestoContent.RestoItem
  */
 class RestoFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
-
+    private var restos: MutableList<Resto> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        Backend.getRestos((activity as MainActivity).requestQueue, ::populateRestos)
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+    }
+
+    private fun populateRestos(listRestos:List<Resto>?) {
+        if(listRestos==null) {
+            Log.d("ERROR", "AUCUN RESTO")
+            return
+        }
+
+        restos.addAll(listRestos)
+
     }
 
     override fun onCreateView(
@@ -47,7 +61,7 @@ class RestoFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = RestoRecyclerViewAdapter(RestoContent.ITEMS, listener)
+                adapter = RestoRecyclerViewAdapter(restos, listener)
             }
         }
         return view

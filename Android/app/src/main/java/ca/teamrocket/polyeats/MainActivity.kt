@@ -14,11 +14,16 @@ import ca.teamrocket.polyeats.restoFragment.RestoFragment
 import ca.teamrocket.polyeats.restoFragment.resto.RestoContent
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 
 class MainActivity : AppCompatActivity(),
     HistoryFragment.OnListFragmentInteractionListener,
     RestoFragment.OnListFragmentInteractionListener,
     SearchFragment.OnListFragmentInteractionListener{
+
+    lateinit var requestQueue: RequestQueue
+
     override fun onListFragmentInteraction(item: SearchContent.SuggestionItem?) {
         Log.d("SEARCH", "click")
     }
@@ -33,6 +38,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestQueue = Volley.newRequestQueue(this)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

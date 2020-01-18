@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ca.teamrocket.polyeats.R
+import ca.teamrocket.polyeats.network.models.Resto
 
 
 import ca.teamrocket.polyeats.restoFragment.RestoFragment.OnListFragmentInteractionListener
@@ -19,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_resto.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class RestoRecyclerViewAdapter(
-    private val mValues: List<RestoItem>,
+    private val mValues: List<Resto>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<RestoRecyclerViewAdapter.ViewHolder>() {
 
@@ -43,7 +44,7 @@ class RestoRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mContentView.text = item.name
 
         with(holder.mView) {
             tag = item

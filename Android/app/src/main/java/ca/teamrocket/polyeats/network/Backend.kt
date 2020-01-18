@@ -16,7 +16,7 @@ object Backend {
 
     private val END_RESTOS = "/resto"
 
-    fun getRestos(queue: RequestQueue, callback: (List<Resto>?) -> Void){
+    fun getRestos(queue: RequestQueue, callback: (List<Resto>?) -> Unit){
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
             Request.Method.GET, END_RESTOS,
