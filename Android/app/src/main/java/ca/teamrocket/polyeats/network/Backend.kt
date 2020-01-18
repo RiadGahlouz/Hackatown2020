@@ -1,8 +1,6 @@
-package ca.teamrocket.polyeats.ui.network
+package ca.teamrocket.polyeats.network
 
-import android.content.Context
-import android.os.AsyncTask
-import ca.teamrocket.polyeats.ui.network.models.Resto
+import ca.teamrocket.polyeats.network.models.Resto
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
