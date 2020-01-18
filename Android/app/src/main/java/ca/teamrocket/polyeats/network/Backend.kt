@@ -14,7 +14,7 @@ object Backend {
     private val BACKEND_ADDR = "192.168.1.4"
     private val BACKEND_PORT = "80"
 
-    private val END_RESTOS = "/restos"
+    private val END_RESTOS = "$BACKEND_ADDR/restos"
 
     fun getRestos(queue: RequestQueue, callback: (List<Resto>?) -> Void){
         // Request a string response from the provided URL.
