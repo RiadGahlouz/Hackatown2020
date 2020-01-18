@@ -34,6 +34,5 @@ object Backend {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
-        queue.start()
     }
 }
