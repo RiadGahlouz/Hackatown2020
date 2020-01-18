@@ -871,6 +871,8 @@ name = "server"
 version = "0.1.0"
 dependencies = [
  "gotham 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "hyper 0.12.35 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mime 0.3.16 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

@@ -1,3 +1,5 @@
+mod routes;
+
 use gotham::state::State;
 
 const HELLO_WORLD: &str = "Hello World!";
@@ -13,7 +15,7 @@ pub fn say_hello(state: State) -> (State, &'static str) {
 
 /// Start a server and call the `Handler` we've defined above for each `Request` we receive.
 pub fn main() {
-    let addr = "127.0.0.1:7878";
+    let addr = "0.0.0.0:80";
     println!("Listening for requests at http://{}", addr);
-    gotham::start(addr, || Ok(say_hello))
+    gotham::start(addr, routes::create_router())
 }
