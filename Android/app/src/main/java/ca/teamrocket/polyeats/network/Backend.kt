@@ -8,7 +8,7 @@ import com.android.volley.toolbox.StringRequest
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class Backend {
+object Backend {
     private val GSON = Gson()
 
     private val BACKEND_ADDR = "192.168.1.4"
@@ -16,7 +16,7 @@ class Backend {
 
     private val END_RESTOS = "/resto"
 
-    fun GetRestos(queue: RequestQueue, callback: (List<Resto>?) -> Void){
+    fun getRestos(queue: RequestQueue, callback: (List<Resto>?) -> Void){
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
             Request.Method.GET, END_RESTOS,
