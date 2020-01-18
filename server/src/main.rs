@@ -1,4 +1,5 @@
 mod routes;
+mod model;
 
 use gotham::state::State;
 use std::env;
