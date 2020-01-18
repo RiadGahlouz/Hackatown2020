@@ -44,6 +44,7 @@ class RestoFragment : Fragment() {
         }
 
         restos.addAll(listRestos)
+        (view as RecyclerView).adapter?.notifyDataSetChanged()
 
     }
 

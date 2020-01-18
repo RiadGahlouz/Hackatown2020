@@ -2,7 +2,6 @@ package ca.teamrocket.polyeats
 
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,11 +11,12 @@ import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
 import ca.teamrocket.polyeats.network.models.Resto
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
-import ca.teamrocket.polyeats.restoFragment.resto.RestoContent
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import ca.teamrocket.polyeats.searchFragment.suggestion.SearchContent
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity(),
     HistoryFragment.OnListFragmentInteractionListener,
