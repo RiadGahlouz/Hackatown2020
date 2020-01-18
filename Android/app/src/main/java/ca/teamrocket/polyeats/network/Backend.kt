@@ -12,15 +12,15 @@ import com.google.gson.reflect.TypeToken
 object Backend {
     private val GSON = Gson()
 
-    private val BACKEND_ADDR = "http://192.168.1.4:80"
     private val BACKEND_PORT = "80"
+    private val BACKEND_ADDR = "http://192.168.1.4:$BACKEND_PORT"
 
     private val END_RESTOS = "$BACKEND_ADDR/restos"
 
     fun getRestos(queue: RequestQueue, callback: (List<Resto>?) -> Unit){
         // Request a string response from the provided URL.
         val stringRequest = StringRequest(
-            Request.Method.GET, END_RESTOS,
+            Request.Method.GET,  END_RESTOS,
             Response.Listener<String> { response ->
                 Log.d("BACKEND", "Ze response is $response")
                 val responseType = object : TypeToken<List<Resto>>() {}.type
@@ -28,10 +28,12 @@ object Backend {
                 callback(restos)
             },
             Response.ErrorListener {
-                Log.d("BACKEND", "No response")
+
+                Log.d("BACKEND", "No response: ${it.message}")
                 callback(null)})
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest)
+        queue.start()
     }
 }
