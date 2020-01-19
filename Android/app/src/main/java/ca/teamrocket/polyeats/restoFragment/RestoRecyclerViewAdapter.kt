@@ -43,8 +43,8 @@ class RestoRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        // val imgID = holder.mImageView.context.resources.getIdentifier(item.id , "drawable", holder.mImageView.context.packageName)
-        // holder.mImageView.setImageResource(imgID)
+        val imgID = holder.mImageView.context.resources.getIdentifier("ic_${item.id}" , "drawable", holder.mImageView.context.packageName)
+        holder.mImageView.setImageResource(imgID)
         holder.mNameView.text = item.name
         holder.mHourView.text = item.hours
         // todo: in red if outside opening hours

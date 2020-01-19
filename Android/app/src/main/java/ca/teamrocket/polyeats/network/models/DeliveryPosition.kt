@@ -25,4 +25,8 @@ class DeliveryPosition {
     @SerializedName("accr")
     @Expose
     var accuracyR: Float? = null
+
+    @SerializedName("speed")
+    @Expose
+    var speed: Float? = null
 }

@@ -1,58 +1,45 @@
-package ca.teamrocket.polyeats.restoFragment
+package ca.teamrocket.polyeats.restoActivity
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import ca.teamrocket.polyeats.MainActivity
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.Backend
-
-import java.util.ArrayList
+import ca.teamrocket.polyeats.network.models.FullMenuItem
 import ca.teamrocket.polyeats.network.models.Resto
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 /**
  * A fragment representing a list of Items.
  * Activities containing this fragment MUST implement the
- * [RestoFragment.OnListFragmentInteractionListener] interface.
+ * [CheckoutFragment.OnListFragmentInteractionListener] interface.
  */
-class RestoFragment : Fragment() {
+class CheckoutFragment: Fragment() {
 
+    // TODO: Customize parameters
     private var columnCount = 1
-    private var restos: MutableList<Resto> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
-
+    private val GSON = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Backend.getRestos((activity as MainActivity).requestQueue, ::populateRestos)
+
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
-    }
-
-    private fun populateRestos(listRestos:List<Resto>?) {
-        if(listRestos==null) {
-            Log.d("ERROR", "AUCUN RESTO")
-            return
-        }
-
-        restos.addAll(listRestos)
-        (view as RecyclerView).adapter?.notifyDataSetChanged()
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_resto_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_menuitem_list, container, false)
 
         // Set the adapter
         if (view is RecyclerView) {
@@ -61,7 +48,11 @@ class RestoFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = RestoRecyclerViewAdapter(restos, listener)
+
+                val responseType = object : TypeToken<MutableList<FullMenuItem>>() {}.type
+                val order = GSON.fromJson<MutableList<FullMenuItem>>(arguments?.getString("order"), responseType)
+
+                adapter = MenuItemRecyclerViewAdapter(order, listener)
             }
         }
         return view
@@ -81,8 +72,20 @@ class RestoFragment : Fragment() {
         listener = null
     }
 
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     *
+     *
+     * See the Android Training lesson
+     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
+     * for more information.
+     */
     interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: Resto?)
+        // TODO: Update argument type and name
+        fun onListFragmentInteraction(item: FullMenuItem?)
     }
 
     companion object {
@@ -93,7 +96,7 @@ class RestoFragment : Fragment() {
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            RestoFragment().apply {
+            CheckoutFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }
