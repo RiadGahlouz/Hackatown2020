@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Looper
 import android.widget.Toast
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,8 +16,14 @@ import ca.teamrocket.polyeats.network.Backend
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.*
+import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.location.LocationComponent
+import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
+import com.mapbox.mapboxsdk.location.modes.CameraMode
+import com.mapbox.mapboxsdk.location.modes.RenderMode
+import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.maps.Style.MAPBOX_STREETS
 import com.mapbox.mapboxsdk.plugins.annotation.CircleManager
@@ -62,6 +69,25 @@ class IndoorMapActivity : AppCompatActivity() {
         return result == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun enableLocationComponent(loadedMapStyle: Style, mapboxMap: MapboxMap) {
+// Check if permissions are enabled and if not request
+// Get an instance of the component
+        var locationComponent: LocationComponent = mapboxMap.getLocationComponent();
+
+// Activate with options
+        locationComponent.activateLocationComponent(
+            LocationComponentActivationOptions.builder(this, loadedMapStyle).build()
+        );
+
+// Enable to make component visible
+        locationComponent.setLocationComponentEnabled(true);
+
+// Set the component's camera mode
+        locationComponent.setCameraMode(CameraMode.TRACKING);
+
+// Set the component's render mode
+        locationComponent.setRenderMode(RenderMode.COMPASS);
+    }
     private fun getColorFromAltitude(altitude: Double, accuracy: Float): Int {
         val POLY_RED = Color.argb(255, 185, 30, 50)
         val POLY_ORANGE = Color.argb(255,250, 150,30)
@@ -110,8 +136,8 @@ class IndoorMapActivity : AppCompatActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         val locationRequest = LocationRequest.create()?.apply {
-            interval = 4000
-            fastestInterval = 1000
+            interval = 7000
+            fastestInterval = 4000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
@@ -153,6 +179,7 @@ class IndoorMapActivity : AppCompatActivity() {
         mapViewElement.onCreate(savedInstanceState)
         mapViewElement.getMapAsync { mapboxMap ->
             mapboxMap.setStyle(MAPBOX_STREETS) { style ->
+            enableLocationComponent(style, mapboxMap)
                 circleManager = CircleManager(mapViewElement, mapboxMap, style)
                 fusedLocationClient.requestLocationUpdates(locationRequest,
                     locationCallback,
