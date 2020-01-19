@@ -58,37 +58,37 @@ impl AppData {
                 id: "0".to_string(),
                 name: "Navier - Stokes".to_string(),
                 hours: "7h à 19h".to_string(),
-                location: "1er étage du pavillon principal".to_string(),
+                location: "1ᵉʳ étage du pavillon principal".to_string(),
             },
             Resto {
                 id: "1".to_string(),
                 name: "Hamilton".to_string(),
                 hours: "11h à 14h30".to_string(),
-                location: "1er étage du pavillon principal".to_string(),
+                location: "1ᵉʳ étage du pavillon principal".to_string(),
             },
             Resto {
                 id: "2".to_string(),
                 name: "Galileo".to_string(),
                 hours: "7h30 à 19h".to_string(),
-                location: "2ième étage du pavillon principal".to_string(),
+                location: "2ⁱᵉᵐᵉ étage du pavillon principal".to_string(),
             },
             Resto {
                 id: "3".to_string(),
                 name: "Curie".to_string(),
                 hours: "11h à 14h (fermé le vendredi)".to_string(),
-                location: "6ième étage du pavillon principal".to_string(),
+                location: "6ⁱᵉᵐᵉ étage du pavillon principal".to_string(),
             },
             Resto {
                 id: "4".to_string(),
                 name: "Hertz".to_string(),
-                hours: "???".to_string(),
-                location: "???".to_string(),
+                hours: "du lundi au jeudi de 8h à 14h30".to_string(),
+                location: "1ᵉʳ étage du pavillon Lassonde".to_string(),
             },
             Resto {
                 id: "5".to_string(),
-                name: "Pascal;".to_string(),
-                hours: "???".to_string(),
-                location: "???".to_string(),
+                name: "Pascal".to_string(),
+                hours: "8h à 15h30".to_string(),
+                location: "6ⁱᵉᵐᵉ étage du pavillon Lassonde".to_string(),
             }
         ];
 
