@@ -73,8 +73,6 @@ class MainActivity : AppCompatActivity(),
             supportActionBar?.hide()
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         Mapbox.getInstance(this, "pk.eyJ1IjoidWx0aW1hdGVnYW1lcjg0IiwiYSI6ImNrNWszcGZmNTBhM3Yza3FsMmhhY3RvbjEifQ.yvR1ICDa2Hn6z05setMxrQ")
-        val intent = Intent(this, IndoorMapActivity::class.java).apply {}
-        startActivity(intent)
 
         requestQueue = Volley.newRequestQueue(this)
         setContentView(R.layout.activity_main)

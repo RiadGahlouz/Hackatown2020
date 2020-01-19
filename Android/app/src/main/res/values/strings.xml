@@ -4,4 +4,14 @@
     <string name="title_search">Search</string>
     <string name="title_history">History</string>
     <string name="title_activity_indoor_map">IndoorMapActivity</string>
+    <string-array name="class_list">
+        <item>M-3022</item>
+        <item>L-2712</item>
+        <item>A-316</item>
+        <item>B-601</item>
+        <item>M-1010</item>
+        <item>L-4712</item>
+        <item>M-5004</item>
+        <item>L-6017</item>
+    </string-array>
 </resources>
