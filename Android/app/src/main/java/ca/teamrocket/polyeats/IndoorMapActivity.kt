@@ -5,10 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,7 +17,6 @@ import ca.teamrocket.polyeats.network.models.DeliveryPosition
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.*
-import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.location.LocationComponent
@@ -38,6 +37,7 @@ import com.mapbox.mapboxsdk.utils.ColorUtils
 import kotlinx.android.synthetic.main.activity_indoor_map.*
 import java.io.IOException
 import java.nio.charset.Charset
+import kotlin.math.pow
 
 
 class IndoorMapActivity : AppCompatActivity() {
@@ -49,6 +49,8 @@ class IndoorMapActivity : AppCompatActivity() {
     lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     lateinit var requestQueue: RequestQueue
+    var ETA_sec: Int = -1
+    var lastKnownLocation: Location? = null
 
 
     fun requestPermission(strPermission: String, _c: Context, _a: Activity) {
@@ -147,21 +149,15 @@ class IndoorMapActivity : AppCompatActivity() {
                 locationResult ?: return
 
                 val lastLocation = locationResult.lastLocation
-//                val circleOptions = CircleOptions()
-//                    .withLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
-//                    .withCircleColor(ColorUtils.colorToRgbaString(getColorFromAltitude(lastLocation.altitude, lastLocation.verticalAccuracyMeters)))
-//                    .withCircleRadius(8f)
-//                    .withDraggable(false)
-//                circleManager.deleteAll()
-//                circleManager.create(circleOptions)
+                lastKnownLocation = lastLocation
 
                 Backend.getPosition(requestQueue, ::onDeliveryPosition)
                 println("LOCATION DETERMINED to ${lastLocation.latitude}  ${lastLocation.longitude}")
 
                 if(AM_I_THE_DELIVERY_GUY)
-                    Backend.setPosition(requestQueue, lastLocation.longitude, lastLocation.latitude, lastLocation.altitude, lastLocation.verticalAccuracyMeters, lastLocation.accuracy)
+                    Backend.setPosition(requestQueue, lastLocation.longitude, lastLocation.latitude, lastLocation.altitude, lastLocation.verticalAccuracyMeters, lastLocation.accuracy, lastLocation.speed)
 
-                deviceHeight.text = "Alt: ${lastLocation.altitude} Acc: ${lastLocation.verticalAccuracyMeters} Speed: ${lastLocation.speed}"
+//                deviceHeight.text = "Alt: ${lastLocation.altitude} Acc: ${lastLocation.verticalAccuracyMeters} Speed: ${lastLocation.speed}"
             }
         }
 
@@ -274,6 +270,40 @@ class IndoorMapActivity : AppCompatActivity() {
             .withDraggable(false)
         circleManager.deleteAll()
         circleManager.create(circleOptions)
+
+        updateETA(deliveryPosition)
+    }
+
+    private fun updateETA(deliveryPosition: DeliveryPosition) {
+        if(lastKnownLocation == null)
+            return
+
+        val distanceH = dist(
+            lastKnownLocation!!.latitude,
+            lastKnownLocation!!.longitude,
+            deliveryPosition.latitude!!,
+            deliveryPosition.longitude!!
+        )
+
+        val distance = Math.sqrt(distanceH.pow(2) + (deliveryPosition.altitude!! - lastKnownLocation!!.altitude).pow(2))
+
+        val ETA_sec = distance/deliveryPosition.speed!!
+        val ETA_min =((ETA_sec/60 * 100)/100).toInt()
+
+//        deliveryETA.text = "Distance: ${"$.1f".format(distance)}m  Speed: ${deliveryPosition.speed}m/s ETA: ${((ETA_sec/60 * 100)/100).toInt()}min"
+        deliveryETA.text = "Distance: ${"$.1f".format(distance)}m  Delivery Time: ${ if (ETA_min == 0)  "<1" else ETA_min}min"
+    }
+
+    private fun dist(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double{  // generally used geo measurement function
+        var R = 6378.137 // Radius of earth in KM
+        var dLat = lat2 * Math.PI / 180 - lat1 * Math.PI / 180
+        var dLon = lon2 * Math.PI / 180 - lon1 * Math.PI / 180
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a))
+        var d = R * c
+        return d * 1000 // meters
     }
 
     private fun loadJsonFromAsset(filename: String): String? {
