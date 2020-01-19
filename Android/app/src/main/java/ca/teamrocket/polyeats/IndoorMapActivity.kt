@@ -41,7 +41,10 @@ import kotlin.math.pow
 
 
 class IndoorMapActivity : AppCompatActivity() {
-    private val AM_I_THE_DELIVERY_GUY = false
+    companion object {
+        const val AM_I_THE_DELIVERY_GUY = true
+        // {"lat":45.5044624,"lon":-73.614625,"alt":105.0,"accv":2.0,"accr":16,"speed":0.7}
+    }
 
     private lateinit var indoorBuildingSource: GeoJsonSource
     private lateinit var boundingBoxList: MutableList<MutableList<Point>>
@@ -291,7 +294,7 @@ class IndoorMapActivity : AppCompatActivity() {
         val ETA_min =((ETA_sec/60 * 100)/100).toInt()
 
 //        deliveryETA.text = "Distance: ${"$.1f".format(distance)}m  Speed: ${deliveryPosition.speed}m/s ETA: ${((ETA_sec/60 * 100)/100).toInt()}min"
-        deliveryETA.text = "Distance: ${"$.1f".format(distance)}m  Delivery Time: ${ if (ETA_min == 0)  "<1" else ETA_min}min"
+        deliveryETA.text = "Distance: ${distance.toInt()}m  Delivery Time: ${ if (ETA_min == 0)  "<1" else ETA_min}min"
     }
 
     private fun dist(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double{  // generally used geo measurement function
