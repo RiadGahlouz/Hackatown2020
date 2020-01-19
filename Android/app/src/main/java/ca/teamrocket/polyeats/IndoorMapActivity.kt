@@ -159,7 +159,7 @@ class IndoorMapActivity : AppCompatActivity() {
                 println("LOCATION DETERMINED to ${lastLocation.latitude}  ${lastLocation.longitude}")
 
                 if(AM_I_THE_DELIVERY_GUY)
-                    Backend.setPosition(requestQueue, lastLocation.longitude, lastLocation.latitude, lastLocation.altitude, lastLocation.verticalAccuracyMeters, lastLocation.accuracy)
+                    Backend.setPosition(requestQueue, lastLocation.longitude, lastLocation.latitude, lastLocation.altitude, lastLocation.verticalAccuracyMeters, lastLocation.accuracy, lastLocation.speed)
 
                 deviceHeight.text = "Alt: ${lastLocation.altitude} Acc: ${lastLocation.verticalAccuracyMeters} Speed: ${lastLocation.speed}"
             }

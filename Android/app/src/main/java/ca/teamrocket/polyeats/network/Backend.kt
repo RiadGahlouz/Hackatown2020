@@ -119,13 +119,14 @@ object Backend {
         queue.add(stringRequest)
     }
 
-    fun setPosition(queue: RequestQueue, longitude: Double, latitude: Double, altitude: Double, accuracyV: Float, accuracyR: Float) {
+    fun setPosition(queue: RequestQueue, longitude: Double, latitude: Double, altitude: Double, accuracyV: Float, accuracyR: Float, speed: Float) {
         val jo = JSONObject()
         jo.put("lon", longitude)
         jo.put("lat", latitude)
         jo.put("alt", altitude)
         jo.put("accv", accuracyV)
         jo.put("accr", accuracyR)
+        jo.put("speed", speed)
         val stringRequest = JsonObjectRequest(
             Request.Method.POST,  END_SET_POS ,
             jo,
