@@ -1,8 +1,9 @@
 package ca.teamrocket.polyeats
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.ActionBar
+import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,6 +13,7 @@ import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
 import ca.teamrocket.polyeats.network.models.Resto
 import ca.teamrocket.polyeats.network.models.Suggestion
+import ca.teamrocket.polyeats.restoActivity.RestoActivity
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import com.android.volley.RequestQueue
@@ -32,6 +34,10 @@ class MainActivity : AppCompatActivity(),
 
     override fun onListFragmentInteraction(item: Resto?) {
         Log.d("RESTO", "click")
+        val intent = Intent(this, RestoActivity::class.java).apply {
+            putExtra("Restaurant", item)
+        }
+        startActivity(intent)
     }
 
     override fun onListFragmentInteraction(item: TransactionContent.TransactionItem?) {
