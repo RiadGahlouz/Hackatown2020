@@ -1,6 +1,7 @@
 package ca.teamrocket.polyeats.restoActivity
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,12 +11,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import ca.teamrocket.polyeats.IndoorMapActivity
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.Backend
 import ca.teamrocket.polyeats.network.models.FullMenuItem
 import ca.teamrocket.polyeats.network.models.Resto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.fragment_menuitem_list.*
 import kotlinx.android.synthetic.main.fragment_menuitem_list.view.*
 
 /**
@@ -58,6 +61,14 @@ class CheckoutFragment: Fragment() {
             }
         }
         return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        confirmBtn.setOnClickListener{
+            val intent = Intent(activity, IndoorMapActivity::class.java).apply {}
+            startActivity(intent)
+        }
     }
 
     override fun onAttach(context: Context) {

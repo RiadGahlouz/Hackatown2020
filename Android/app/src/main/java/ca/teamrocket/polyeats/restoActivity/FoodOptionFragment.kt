@@ -34,7 +34,7 @@ class FoodOptionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity as RestoActivity).order = MutableList<FullMenuItem>()
+        (activity as RestoActivity).order = ArrayList()
         resto = activity?.intent?.getSerializableExtra("Resto") as Resto
         Backend.getMenuItemsForResto((activity as RestoActivity).requestQueue, resto.id.toString(), ::populateMenuItems)
         arguments?.let {
