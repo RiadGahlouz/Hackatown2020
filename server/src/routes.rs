@@ -44,6 +44,16 @@ pub fn menus(mut state: State) -> (State, impl IntoResponse) {
     (state, (mime::APPLICATION_JSON, json_str))
 }
 
+
+pub fn get_all_menus(state: State) -> (State, impl IntoResponse) {
+    let json_str = {
+        let data = AppData::borrow_from(&state);
+        let data = data.data.lock().unwrap();
+        serde_json::to_string(&(*data).plats).unwrap()
+    };
+    (state, (mime::APPLICATION_JSON, json_str))
+}
+
 pub fn order(state: State) -> (State, impl IntoResponse) {
     let json_str = "{\"order_id\": \"1\"}";
     (state, (mime::APPLICATION_JSON, json_str))
@@ -63,6 +73,7 @@ pub fn create_router() -> Router {
         route.get("/").to(index);
         route.get("/restos").to(restos);
         route.get("/menus/:id").with_path_extractor::<IdPathExtractor>().to(menus);
+        route.get("/menus").to(get_all_menus);
         route.post("/order").to(order);
         route.get("/orders/:id").with_path_extractor::<IdPathExtractor>().to(orders);
     })
