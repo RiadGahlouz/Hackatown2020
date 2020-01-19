@@ -19,6 +19,7 @@ object Backend {
 
     private val BACKEND_PORT = "80"
     private val BACKEND_ADDR = "http://34.95.4.15"
+//    private val BACKEND_ADDR = "http://192.168.1.4"
 
     private val END_RESTOS = "$BACKEND_ADDR/restos"
     private val END_MENUS = "$BACKEND_ADDR/menus"
@@ -33,6 +34,7 @@ object Backend {
             Request.Method.GET,  END_RESTOS,
             Response.Listener<String> { response ->
                 Log.d("BACKEND", "Ze response is $response")
+
                 val responseType = object : TypeToken<List<Resto>>() {}.type
                 val restos = GSON.fromJson<List<Resto>>(response, responseType)
                 callback(restos)
