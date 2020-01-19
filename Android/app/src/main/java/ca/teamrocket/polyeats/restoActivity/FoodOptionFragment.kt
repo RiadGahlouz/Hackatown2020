@@ -32,7 +32,7 @@ class FoodOptionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         resto = activity?.intent?.getSerializableExtra("Resto") as Resto
-        Backend.getMenuItemsForResto((activity as MainActivity).requestQueue, resto.id.toString(), ::populateMenuItems)
+        Backend.getMenuItemsForResto((activity as RestoActivity).requestQueue, resto.id.toString(), ::populateMenuItems)
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }

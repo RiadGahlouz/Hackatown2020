@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
+import ca.teamrocket.polyeats.network.Backend
 import ca.teamrocket.polyeats.network.models.MenuItem
 import ca.teamrocket.polyeats.network.models.Resto
 import ca.teamrocket.polyeats.restoActivity.RestoActivity
@@ -26,15 +27,29 @@ class MainActivity : AppCompatActivity(),
     SearchFragment.OnListFragmentInteractionListener{
 
     lateinit var requestQueue: RequestQueue
+    var restoId = "-1"
+    var currResto: Resto? = null
 
     override fun onListFragmentInteraction(item: MenuItem?) {
         Log.d("SEARCH", "click")
+        restoId = item?.id_resto.toString()
+        Backend.getRestos(requestQueue, ::startRestoActivity)
+    }
+
+    private fun startRestoActivity(listRestos:List<Resto>?){
+        if(restoId.toInt() >= 0) {
+            currResto = listRestos?.get(restoId.toInt())
+            val intent = Intent(this, RestoActivity::class.java).apply {
+                putExtra("Resto", currResto)
+            }
+            startActivity(intent)
+        }
     }
 
     override fun onListFragmentInteraction(item: Resto?) {
         Log.d("RESTO", "click")
         val intent = Intent(this, RestoActivity::class.java).apply {
-            putExtra("Restaurant", item)
+            putExtra("Resto", item)
         }
         startActivity(intent)
     }

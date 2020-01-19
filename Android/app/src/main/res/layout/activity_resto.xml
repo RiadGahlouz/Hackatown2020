@@ -35,7 +35,6 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/checkoutBtnDisabled"
         android:visibility="visible"
-        android:clickable="false"
         android:backgroundTint="@android:color/darker_gray"
         app:borderWidth="0dp"
         android:layout_width="wrap_content"

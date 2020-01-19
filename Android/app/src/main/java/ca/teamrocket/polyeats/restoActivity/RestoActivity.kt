@@ -7,11 +7,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.models.MenuItem
+import ca.teamrocket.polyeats.network.models.Resto
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_resto.*
 import kotlinx.android.synthetic.main.fragment_popup_menu_item.*
 
 class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInteractionListener {
     private val order: MutableList<MenuItem> = ArrayList()
+    lateinit var requestQueue: RequestQueue
 
     override fun onListFragmentInteraction(item: MenuItem?) {
         if (item == null) return
@@ -38,6 +42,9 @@ class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestQueue = Volley.newRequestQueue(this)
+        //.navigationItem.title = @"The title"
+        // activity?.intent?.getSerializableExtra("Resto") as Resto
         setContentView(R.layout.activity_resto)
         checkoutBtnEnabled.isVisible = false
         checkoutBtnDisabled.isVisible = true

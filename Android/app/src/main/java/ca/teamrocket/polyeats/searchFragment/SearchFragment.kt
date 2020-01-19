@@ -2,18 +2,23 @@ package ca.teamrocket.polyeats.searchFragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.teamrocket.polyeats.MainActivity
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.Backend
 import ca.teamrocket.polyeats.network.models.MenuItem
+import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_search.view.*
 
 import java.util.ArrayList
 
@@ -26,7 +31,9 @@ class SearchFragment : Fragment() {
 
     private var columnCount = 1
     private val suggestions: MutableList<MenuItem> = ArrayList()
+    private val filtered: MutableList<MenuItem> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
+    internal var textlength = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +50,8 @@ class SearchFragment : Fragment() {
         }
 
         suggestions.addAll(listMenuItems)
-        (view as RecyclerView).adapter?.notifyDataSetChanged()
+        filtered.addAll(listMenuItems)
+        list.adapter?.notifyDataSetChanged()
     }
 
     override fun onCreateView(
@@ -53,8 +61,8 @@ class SearchFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_search, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
+        if (view is ConstraintLayout) {
+            with(view.list) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
@@ -65,6 +73,33 @@ class SearchFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        search!!.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable) {}
+
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                textlength = search!!.text.length
+                filtered.clear()
+                for (i in suggestions.indices) {
+                    if (textlength <= suggestions[i].name?.length ?: 0) {
+                        if (suggestions[i].name?.toLowerCase()?.trim()?.contains(
+                                search!!.text.toString().toLowerCase().trim { it <= ' ' })!!
+                        ) {
+                            filtered.add(suggestions[i])
+                        }
+                    }
+                }
+                list.adapter = SuggestionRecyclerViewAdapter(filtered, listener)
+                list!!.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+            }
+        })
+    }
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if (context is OnListFragmentInteractionListener) {
