@@ -18,6 +18,7 @@ pub struct MenuItem {
     pub name: String,
     pub description: String,
     pub vege: bool,
+    pub price: f32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -96,6 +97,7 @@ impl AppData {
                 name: "Salade repas paysanne".to_string(),
                 description: "Jambon et oeufs".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "1".to_string(),
@@ -103,6 +105,7 @@ impl AppData {
                 name: "Salade repas océane".to_string(),
                 description: "poisson".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "3".to_string(),
@@ -110,6 +113,7 @@ impl AppData {
                 name: "Salade repas végétarienne".to_string(),
                 description: "du vert".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "4".to_string(),
@@ -117,6 +121,7 @@ impl AppData {
                 name: "Salade composée d'orzo".to_string(),
                 description: "Orzo, pommes Empire, céleri vert, persil, emmental, concombres, menthe, vinaigrette miel & citron".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "5".to_string(),
@@ -124,6 +129,7 @@ impl AppData {
                 name: "Salade composée légumineuses".to_string(),
                 description: "Mélange de légumineuses, poivrons rouges, maïs en grains, céleri, écha-lotes vertes, tomates, vinaigrette balsamique".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "6".to_string(),
@@ -131,6 +137,7 @@ impl AppData {
                 name: "Salade composée riz 7 grains".to_string(),
                 description: "Riz 7 grains, ratatouille de légumes grillés, oignons rouges, ail, fines herbes".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "7".to_string(),
@@ -138,6 +145,7 @@ impl AppData {
                 name: "Sandwitch ciabatta végétarien".to_string(),
                 description: "Pain ciabatta betterave, tempeh mariné, salade de choux et carottes, coriandre fraiche, sauce gingembre".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "8".to_string(),
@@ -145,6 +153,7 @@ impl AppData {
                 name: "Sandwitch panini jambon".to_string(),
                 description: "Pain panini, jambon blanc, cheddar fort, salade, mayon-naise moutardée".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "9".to_string(),
@@ -152,6 +161,7 @@ impl AppData {
                 name: "Sandwitch panini poulet grillé".to_string(),
                 description: "Pain panini, poulet grillé, tomates, salade, cheddard blanc, mayonnaise tomates séchées".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "10".to_string(),
@@ -159,6 +169,7 @@ impl AppData {
                 name: "Sandwitch panini roti de boeuf".to_string(),
                 description: "Pain panini carottes, rôti de bœuf, oignons caramélisés, salade, rémoulade céleri & carottes".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "11".to_string(),
@@ -166,6 +177,7 @@ impl AppData {
                 name: "Sandwitch panini roti de porc".to_string(),
                 description: "Pain panini, rôti de porc, cornichons à l’aneth, salade, cheddar fort, mayonnaise moutardée".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "12".to_string(),
@@ -173,6 +185,7 @@ impl AppData {
                 name: "Sandwitch au jambon".to_string(),
                 description: "Simple".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "13".to_string(),
@@ -180,6 +193,7 @@ impl AppData {
                 name: "Sandwitch au poulet".to_string(),
                 description: "Simple".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "14".to_string(),
@@ -187,6 +201,7 @@ impl AppData {
                 name: "Sandwitch au oeufs".to_string(),
                 description: "Simple".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "15".to_string(),
@@ -194,6 +209,7 @@ impl AppData {
                 name: "Bol kale kimchi".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "16".to_string(),
@@ -201,6 +217,7 @@ impl AppData {
                 name: "Bol kale toscana".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "17".to_string(),
@@ -208,6 +225,7 @@ impl AppData {
                 name: "Bol fèves noires".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "18".to_string(),
@@ -215,6 +233,7 @@ impl AppData {
                 name: "Bol kale césar".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "19".to_string(),
@@ -222,6 +241,7 @@ impl AppData {
                 name: "Wrap dragon".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "20".to_string(),
@@ -229,6 +249,7 @@ impl AppData {
                 name: "Wrap tempeh bbq".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "21".to_string(),
@@ -236,6 +257,7 @@ impl AppData {
                 name: "Wrap végépaté".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "22".to_string(),
@@ -243,6 +265,7 @@ impl AppData {
                 name: "Wrap mekong".to_string(),
                 description: "".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "23".to_string(),
@@ -250,6 +273,7 @@ impl AppData {
                 name: "Gamma veau éffiloché".to_string(),
                 description: "Pain au maïs, veau éffiloché, oignon rouge, carotte, tomate, salade, sauce tzatziki".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "24".to_string(),
@@ -257,6 +281,7 @@ impl AppData {
                 name: "Gamma falafel".to_string(),
                 description: "Pain au maïs, falafels, oignon rouge, carotte, tomate, salade, sauce tzatziki".to_string(),
                 vege: true,
+                price: 10.,
             },
             MenuItem {
                 id: "25".to_string(),
@@ -264,6 +289,7 @@ impl AppData {
                 name: "Salade repas paysanne".to_string(),
                 description: "Jambon & oeufs".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "26".to_string(),
@@ -271,6 +297,7 @@ impl AppData {
                 name: "Salade repas océane".to_string(),
                 description: "Poisson".to_string(),
                 vege: false,
+                price: 10.,
             },
             MenuItem {
                 id: "27".to_string(),
@@ -278,6 +305,7 @@ impl AppData {
                 name: "Salade repas végétarienne".to_string(),
                 description: "".to_string(),
                 vege: false,
+                price: 10.,
             },
         ];
 
