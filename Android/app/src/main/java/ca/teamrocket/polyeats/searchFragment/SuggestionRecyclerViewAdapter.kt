@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import ca.teamrocket.polyeats.R
-import ca.teamrocket.polyeats.network.models.Suggestion
 
 
 import ca.teamrocket.polyeats.searchFragment.SearchFragment.OnListFragmentInteractionListener

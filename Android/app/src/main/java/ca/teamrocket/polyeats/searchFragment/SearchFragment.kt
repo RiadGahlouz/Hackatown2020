@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.teamrocket.polyeats.R
-import ca.teamrocket.polyeats.network.models.Suggestion
 
 import java.util.ArrayList
 
@@ -22,12 +21,13 @@ import java.util.ArrayList
 class SearchFragment : Fragment() {
 
     private var columnCount = 1
+
     val suggestions: MutableList<Suggestion> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        //Backend.getSuggestions((activity as MainActivity).requestQueue, ::populateSuggestions)
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }

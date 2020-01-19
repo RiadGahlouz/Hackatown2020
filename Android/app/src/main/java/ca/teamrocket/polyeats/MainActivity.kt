@@ -3,7 +3,6 @@ package ca.teamrocket.polyeats
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,7 +11,6 @@ import androidx.navigation.ui.setupWithNavController
 import ca.teamrocket.polyeats.historyFragment.HistoryFragment
 import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
 import ca.teamrocket.polyeats.network.models.Resto
-import ca.teamrocket.polyeats.network.models.Suggestion
 import ca.teamrocket.polyeats.restoActivity.RestoActivity
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
