@@ -19,9 +19,16 @@ pub struct MenuItem {
     pub description: String,
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct Order {
+    pub id: String,
+    pub menu_item_ids: Vec<String>,
+}
+
 pub struct Data {
     pub restos: Vec<Resto>,
     pub plats: Vec<MenuItem>,
+    pub orders: Vec<Order>,
 }
 
 #[derive(Clone, StateData)]
@@ -206,8 +213,15 @@ impl AppData {
             },
         ];
 
+        let orders = vec![
+            Order {
+                id: "0".to_string(),
+                menu_item_ids: vec!["22".to_string()],
+            }
+        ];
+
         AppData {
-            data: Arc::new(Mutex::new(Data { restos, plats }))
+            data: Arc::new(Mutex::new(Data { restos, plats, orders }))
         }
     }
 }
