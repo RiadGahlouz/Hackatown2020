@@ -2,6 +2,7 @@ package ca.teamrocket.polyeats.searchFragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import ca.teamrocket.polyeats.MainActivity
 import ca.teamrocket.polyeats.R
+import ca.teamrocket.polyeats.network.Backend
+import ca.teamrocket.polyeats.network.models.MenuItem
 
 import java.util.ArrayList
 
@@ -21,16 +25,25 @@ import java.util.ArrayList
 class SearchFragment : Fragment() {
 
     private var columnCount = 1
-
-    val suggestions: MutableList<Suggestion> = ArrayList()
+    private val suggestions: MutableList<MenuItem> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //Backend.getSuggestions((activity as MainActivity).requestQueue, ::populateSuggestions)
+        Backend.getAllMenuItems((activity as MainActivity).requestQueue, ::populateSuggestions)
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+    }
+
+    private fun populateSuggestions(listMenuItems:List<MenuItem>?) {
+        if(listMenuItems==null) {
+            Log.d("ERROR", "AUCUN ITEM DANS LA DB")
+            return
+        }
+
+        suggestions.addAll(listMenuItems)
+        (view as RecyclerView).adapter?.notifyDataSetChanged()
     }
 
     override fun onCreateView(
@@ -57,7 +70,7 @@ class SearchFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
         }
     }
 
@@ -79,7 +92,7 @@ class SearchFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: Suggestion?)
+        fun onListFragmentInteraction(item: MenuItem?)
     }
 
     companion object {

@@ -25,7 +25,7 @@ import java.util.ArrayList
 class FoodOptionFragment : Fragment() {
 
     private var columnCount = 2
-    val items: MutableList<MenuItem> = ArrayList()
+    private val items: MutableList<MenuItem> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
     private lateinit var resto: Resto
 
@@ -46,7 +46,6 @@ class FoodOptionFragment : Fragment() {
 
         items.addAll(listMenuItems)
         (view as RecyclerView).adapter?.notifyDataSetChanged()
-
     }
 
     override fun onCreateView(
