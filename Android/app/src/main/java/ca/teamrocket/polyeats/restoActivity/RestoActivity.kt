@@ -40,15 +40,17 @@ class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInte
         mAlertDialog.addToCartBtn.setOnClickListener {
             var options = ""
             if(mAlertDialog.extra1.isChecked)
-                options += "Extra Sauce - "
+                options += "Extra Sauce, "
             if(mAlertDialog.extra2.isChecked)
-                options += "Extra Cheese -"
+                options += "Extra Cheese, "
             if(mAlertDialog.extra3.isChecked)
-                options += "No Meat"
+                options += "No Meat, "
+
+            options = options.take(options.length - 2)
 
             val fmi = FullMenuItem()
             fmi.id = item.id
-            fmi.price = "99.99$"
+            fmi.price = "10.00$"
             fmi.options = options
             fmi.name = item.name
             fmi.specs = mAlertDialog.specsVal.text.toString()

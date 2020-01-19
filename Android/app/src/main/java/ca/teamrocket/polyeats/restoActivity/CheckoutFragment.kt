@@ -18,6 +18,7 @@ import ca.teamrocket.polyeats.network.models.FullMenuItem
 import ca.teamrocket.polyeats.network.models.Resto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.fragment_menuitem.view.*
 import kotlinx.android.synthetic.main.fragment_menuitem_list.*
 import kotlinx.android.synthetic.main.fragment_menuitem_list.view.*
 
@@ -57,9 +58,11 @@ class CheckoutFragment: Fragment() {
                 val responseType = object : TypeToken<MutableList<FullMenuItem>>() {}.type
                 val order = GSON.fromJson<MutableList<FullMenuItem>>(arguments?.getString("order"), responseType)
 
-                adapter = MenuItemRecyclerViewAdapter(order, listener)
+                    adapter = MenuItemRecyclerViewAdapter(order, listener)
             }
         }
+
+
         return view
     }
 
