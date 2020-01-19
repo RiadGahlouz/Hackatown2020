@@ -1,5 +1,6 @@
 mod routes;
 mod model;
+mod utf8_middleware;
 
 use gotham::state::State;
 use std::env;
