@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import ca.teamrocket.polyeats.R
-import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
-
-import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent.TransactionItem
+import ca.teamrocket.polyeats.network.models.Order
+import java.util.ArrayList
 
 /**
  * A fragment representing a list of Items.
@@ -23,7 +22,7 @@ class HistoryFragment : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
-
+    private val orders: MutableList<Order> = ArrayList()
     private var listener: OnListFragmentInteractionListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +46,7 @@ class HistoryFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = TransactionRecyclerViewAdapter(TransactionContent.ITEMS, listener)
+                adapter = TransactionRecyclerViewAdapter(orders, listener)
             }
         }
         return view
@@ -58,7 +57,7 @@ class HistoryFragment : Fragment() {
         if (context is OnListFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnListFragmentInteractionListener")
         }
     }
 
@@ -80,7 +79,7 @@ class HistoryFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: TransactionItem?)
+        fun onListFragmentInteraction(item: Order?)
     }
 
     companion object {

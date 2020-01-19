@@ -2,7 +2,6 @@ package ca.teamrocket.polyeats.restoActivity
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,75 +9,50 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.Backend
 import ca.teamrocket.polyeats.network.models.FullMenuItem
-import ca.teamrocket.polyeats.network.models.MenuItem
 import ca.teamrocket.polyeats.network.models.Resto
-import kotlinx.android.synthetic.main.fragment_foodoption_list.*
-import kotlinx.android.synthetic.main.fragment_foodoption_list.view.*
-import java.util.ArrayList
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 /**
  * A fragment representing a list of Items.
  * Activities containing this fragment MUST implement the
- * [FoodOptionFragment.OnListFragmentInteractionListener] interface.
+ * [CheckoutFragment.OnListFragmentInteractionListener] interface.
  */
-class FoodOptionFragment : Fragment() {
+class CheckoutFragment: Fragment() {
 
-    private var columnCount = 2
-    private val items: MutableList<MenuItem> = ArrayList()
+    // TODO: Customize parameters
+    private var columnCount = 1
     private var listener: OnListFragmentInteractionListener? = null
-    private lateinit var resto: Resto
-
+    private val GSON = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        resto = activity?.intent?.getSerializableExtra("Resto") as Resto
-        Backend.getMenuItemsForResto((activity as RestoActivity).requestQueue, resto.id.toString(), ::populateMenuItems)
+
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        checkoutBtn.setOnClickListener {
-            val fmi = FullMenuItem()
-            fmi.id = "-1"
-            fmi.price = "1.02$"
-            fmi.options = ""
-            fmi.name = "Delivery fees"
-            fmi.specs = ""
-            (activity as RestoActivity).order.add(fmi)
-            (activity as RestoActivity).swapFrag()
-        }
-    }
-
-    private fun populateMenuItems(listMenuItems:List<MenuItem>?) {
-        if(listMenuItems==null) {
-            Log.d("ERROR", "AUCUN ITEM DANS LE MENU")
-            return
-        }
-
-        items.addAll(listMenuItems)
-        food_list.adapter?.notifyDataSetChanged()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_foodoption_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_menuitem_list, container, false)
 
         // Set the adapter
-        if (view is ConstraintLayout) {
-            with(view.food_list) {
+        if (view is RecyclerView) {
+            with(view) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = FoodOptionRecyclerViewAdapter(items, listener)
+
+                val responseType = object : TypeToken<MutableList<FullMenuItem>>() {}.type
+                val order = GSON.fromJson<MutableList<FullMenuItem>>(arguments?.getString("order"), responseType)
+
+                adapter = MenuItemRecyclerViewAdapter(order, listener)
             }
         }
         return view
@@ -111,7 +85,7 @@ class FoodOptionFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: MenuItem?)
+        fun onListFragmentInteraction(item: FullMenuItem?)
     }
 
     companion object {
@@ -122,7 +96,7 @@ class FoodOptionFragment : Fragment() {
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
-            FoodOptionFragment().apply {
+            CheckoutFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }

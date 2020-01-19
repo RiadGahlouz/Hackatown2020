@@ -15,7 +15,7 @@ object Backend {
     private val GSON = Gson()
 
     private val BACKEND_PORT = "80"
-    private val BACKEND_ADDR = "http://34.95.4.15:$BACKEND_PORT"
+    private val BACKEND_ADDR = "http://192.168.1.4:$BACKEND_PORT"
 
     private val END_RESTOS = "$BACKEND_ADDR/restos"
     private val END_MENUS = "$BACKEND_ADDR/menus"

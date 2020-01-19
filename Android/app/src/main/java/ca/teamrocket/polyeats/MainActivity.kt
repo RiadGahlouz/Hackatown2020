@@ -9,9 +9,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import ca.teamrocket.polyeats.historyFragment.HistoryFragment
-import ca.teamrocket.polyeats.historyFragment.transaction.TransactionContent
 import ca.teamrocket.polyeats.network.Backend
 import ca.teamrocket.polyeats.network.models.MenuItem
+import ca.teamrocket.polyeats.network.models.Order
 import ca.teamrocket.polyeats.network.models.Resto
 import ca.teamrocket.polyeats.restoActivity.RestoActivity
 import ca.teamrocket.polyeats.restoFragment.RestoFragment
@@ -19,6 +19,12 @@ import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import android.view.animation.AlphaAnimation
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View
 
 
 class MainActivity : AppCompatActivity(),
@@ -29,9 +35,10 @@ class MainActivity : AppCompatActivity(),
     lateinit var requestQueue: RequestQueue
     var restoId = "-1"
     var currResto: Resto? = null
+    private val buttonClick = AlphaAnimation(1f, 0.8f)
 
     override fun onListFragmentInteraction(item: MenuItem?) {
-        Log.d("SEARCH", "click")
+        // startAnimation(buttonClick)
         restoId = item?.id_resto.toString()
         Backend.getRestos(requestQueue, ::startRestoActivity)
     }
@@ -47,14 +54,13 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onListFragmentInteraction(item: Resto?) {
-        Log.d("RESTO", "click")
         val intent = Intent(this, RestoActivity::class.java).apply {
             putExtra("Resto", item)
         }
         startActivity(intent)
     }
 
-    override fun onListFragmentInteraction(item: TransactionContent.TransactionItem?) {
+    override fun onListFragmentInteraction(item: Order?) {
         Log.d("HISTORY", "click")
     }
 
