@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import ca.teamrocket.polyeats.network.Backend
+import ca.teamrocket.polyeats.network.models.DeliveryPosition
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.*
@@ -146,13 +147,15 @@ class IndoorMapActivity : AppCompatActivity() {
                 locationResult ?: return
 
                 val lastLocation = locationResult.lastLocation
-                val circleOptions = CircleOptions()
-                    .withLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
-                    .withCircleColor(ColorUtils.colorToRgbaString(getColorFromAltitude(lastLocation.altitude, lastLocation.verticalAccuracyMeters)))
-                    .withCircleRadius(8f)
-                    .withDraggable(false)
-                circleManager.deleteAll()
-                circleManager.create(circleOptions)
+//                val circleOptions = CircleOptions()
+//                    .withLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
+//                    .withCircleColor(ColorUtils.colorToRgbaString(getColorFromAltitude(lastLocation.altitude, lastLocation.verticalAccuracyMeters)))
+//                    .withCircleRadius(8f)
+//                    .withDraggable(false)
+//                circleManager.deleteAll()
+//                circleManager.create(circleOptions)
+
+                Backend.getPosition(requestQueue, ::onDeliveryPosition)
                 println("LOCATION DETERMINED to ${lastLocation.latitude}  ${lastLocation.longitude}")
 
                 if(AM_I_THE_DELIVERY_GUY)
@@ -256,6 +259,21 @@ class IndoorMapActivity : AppCompatActivity() {
                 )
             )
         style.addLayer(indoorBuildingLineLayer)
+    }
+
+    private fun onDeliveryPosition(deliveryPosition: DeliveryPosition?) {
+        if(deliveryPosition == null)
+        {
+            println("NO DELIVERY POSITION")
+            return
+        }
+        val circleOptions = CircleOptions()
+            .withLatLng(LatLng(deliveryPosition.latitude!!, deliveryPosition.longitude!!))
+            .withCircleColor(ColorUtils.colorToRgbaString(getColorFromAltitude(deliveryPosition.altitude!!, deliveryPosition.accuracyV!!)))
+            .withCircleRadius(8f)
+            .withDraggable(false)
+        circleManager.deleteAll()
+        circleManager.create(circleOptions)
     }
 
     private fun loadJsonFromAsset(filename: String): String? {

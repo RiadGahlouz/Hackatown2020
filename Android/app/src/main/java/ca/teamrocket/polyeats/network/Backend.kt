@@ -1,6 +1,7 @@
 package ca.teamrocket.polyeats.network
 
 import android.util.Log
+import ca.teamrocket.polyeats.network.models.DeliveryPosition
 import ca.teamrocket.polyeats.network.models.Resto
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -19,6 +20,8 @@ object Backend {
 
     private val END_RESTOS = "$BACKEND_ADDR/restos"
     private val END_SET_POS = "$BACKEND_ADDR/set_pos"
+    private val END_GET_POS = "$BACKEND_ADDR/get_pos"
+
 
     fun getRestos(queue: RequestQueue, callback: (List<Resto>?) -> Unit){
         // Request a string response from the provided URL.
@@ -33,6 +36,23 @@ object Backend {
             Response.ErrorListener {
 
                 Log.d("BACKEND", "No response: ${it.message}")
+                callback(null)})
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest)
+    }
+
+    fun getPosition(queue: RequestQueue, callback: (DeliveryPosition?) -> Unit) {
+        val stringRequest = StringRequest(
+            Request.Method.GET,  END_GET_POS,
+            Response.Listener<String> { response ->
+                Log.d("BACKEND", "Ze delivery response is $response")
+                val deliveryPosition = GSON.fromJson<DeliveryPosition>(response, DeliveryPosition::class.java)
+                callback(deliveryPosition)
+            },
+            Response.ErrorListener {
+
+                Log.d("BACKEND", "No delivery response: ${it.message}")
                 callback(null)})
 
         // Add the request to the RequestQueue.
