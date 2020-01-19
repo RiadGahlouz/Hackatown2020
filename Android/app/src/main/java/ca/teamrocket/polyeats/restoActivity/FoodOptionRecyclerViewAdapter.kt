@@ -8,10 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import ca.teamrocket.polyeats.R
+import ca.teamrocket.polyeats.network.models.MenuItem
 
 
 import ca.teamrocket.polyeats.restoActivity.FoodOptionFragment.OnListFragmentInteractionListener
-import ca.teamrocket.polyeats.restoActivity.menu.MenuContent.MenuItem
 import kotlinx.android.synthetic.main.fragment_foodoption.view.*
 
 /**
@@ -44,8 +44,8 @@ class FoodOptionRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         holder.mFoodNameView.text = item.name
-        holder.mFoodPriceView.text = item.price
-        holder.mFoodImgView.isVisible = item.vegetarian
+        holder.mFoodPriceView.text = "9.99$"
+        holder.mFoodImgView.isVisible = true
 
         with(holder.mView) {
             tag = item

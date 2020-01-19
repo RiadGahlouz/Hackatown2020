@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import ca.teamrocket.polyeats.R
-import ca.teamrocket.polyeats.restoActivity.menu.MenuContent
+import ca.teamrocket.polyeats.network.models.MenuItem
 import kotlinx.android.synthetic.main.activity_resto.*
 import kotlinx.android.synthetic.main.fragment_popup_menu_item.*
 
 class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInteractionListener {
-    private val order: MutableList<MenuContent.MenuItem> = ArrayList()
+    private val order: MutableList<MenuItem> = ArrayList()
 
-    override fun onListFragmentInteraction(item: MenuContent.MenuItem?) {
+    override fun onListFragmentInteraction(item: MenuItem?) {
         if (item == null) return
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.fragment_popup_menu_item, null)
         val mBuilder = AlertDialog.Builder(this).setView(mDialogView).setTitle(item.name)
