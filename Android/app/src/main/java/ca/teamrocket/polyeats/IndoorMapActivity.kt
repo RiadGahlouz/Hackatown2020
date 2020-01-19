@@ -1,9 +1,20 @@
 package ca.teamrocket.polyeats
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import ca.teamrocket.polyeats.network.Backend
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.location.*
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.maps.Style
@@ -19,27 +30,18 @@ import com.mapbox.mapboxsdk.utils.ColorUtils
 import kotlinx.android.synthetic.main.activity_indoor_map.*
 import java.io.IOException
 import java.nio.charset.Charset
-import android.content.pm.PackageManager
-import androidx.core.content.ContextCompat
-import android.app.Activity
-import android.content.Context
-import androidx.core.app.ActivityCompat
-import android.widget.Toast
-import androidx.core.app.ComponentActivity
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.os.Build
-import android.os.Looper
-import com.google.android.gms.location.*
 
 
 class IndoorMapActivity : AppCompatActivity() {
+    private val AM_I_THE_DELIVERY_GUY = false
+
     private lateinit var indoorBuildingSource: GeoJsonSource
     private lateinit var boundingBoxList: MutableList<MutableList<Point>>
     private lateinit var circleManager: CircleManager
     lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    lateinit var requestQueue: RequestQueue
+
 
     fun requestPermission(strPermission: String, _c: Context, _a: Activity) {
 
@@ -91,8 +93,10 @@ class IndoorMapActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestQueue = Volley.newRequestQueue(this)
 
-            if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, applicationContext,this)) {
+
+        if (!checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, applicationContext,this)) {
                 requestPermission(Manifest.permission.ACCESS_FINE_LOCATION,applicationContext,this);
             }
 
@@ -115,15 +119,20 @@ class IndoorMapActivity : AppCompatActivity() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 locationResult ?: return
 
+                val lastLocation = locationResult.lastLocation
                 val circleOptions = CircleOptions()
-                    .withLatLng(LatLng(locationResult.lastLocation.latitude, locationResult.lastLocation.longitude))
-                    .withCircleColor(ColorUtils.colorToRgbaString(getColorFromAltitude(locationResult.lastLocation.altitude, locationResult.lastLocation.verticalAccuracyMeters)))
+                    .withLatLng(LatLng(lastLocation.latitude, lastLocation.longitude))
+                    .withCircleColor(ColorUtils.colorToRgbaString(getColorFromAltitude(lastLocation.altitude, lastLocation.verticalAccuracyMeters)))
                     .withCircleRadius(8f)
                     .withDraggable(false)
                 circleManager.deleteAll()
                 circleManager.create(circleOptions)
-                println("LOCATION DETERMINED to ${locationResult.lastLocation.latitude}  ${locationResult.lastLocation.longitude}")
-                deviceHeight.text = "Alt: ${locationResult.lastLocation.altitude} Acc: ${locationResult.lastLocation.verticalAccuracyMeters} Speed: ${locationResult.lastLocation.speed}"
+                println("LOCATION DETERMINED to ${lastLocation.latitude}  ${lastLocation.longitude}")
+
+                if(AM_I_THE_DELIVERY_GUY)
+                    Backend.setPosition(requestQueue, lastLocation.longitude, lastLocation.latitude, lastLocation.altitude, lastLocation.verticalAccuracyMeters, lastLocation.accuracy)
+
+                deviceHeight.text = "Alt: ${lastLocation.altitude} Acc: ${lastLocation.verticalAccuracyMeters} Speed: ${lastLocation.speed}"
             }
         }
 

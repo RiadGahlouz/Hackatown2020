@@ -1,10 +1,8 @@
 package ca.teamrocket.polyeats
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -18,11 +16,8 @@ import ca.teamrocket.polyeats.restoFragment.RestoFragment
 import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.mapbox.mapboxsdk.Mapbox
-import java.util.jar.Manifest
 
 
 class MainActivity : AppCompatActivity(),
