@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.Backend
 import ca.teamrocket.polyeats.network.models.FullMenuItem
 import ca.teamrocket.polyeats.network.models.Resto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.fragment_menuitem_list.view.*
 
 /**
  * A fragment representing a list of Items.
@@ -42,8 +44,8 @@ class CheckoutFragment: Fragment() {
         val view = inflater.inflate(R.layout.fragment_menuitem_list, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
+        if (view is ConstraintLayout) {
+            with(view.list) {
                 layoutManager = when {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)

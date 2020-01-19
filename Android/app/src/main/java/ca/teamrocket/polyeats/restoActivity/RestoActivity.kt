@@ -22,7 +22,7 @@ class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInte
         Log.d("CHECKOUT", "click")
     }
 
-    val order: MutableList<FullMenuItem> = ArrayList()
+    var order: MutableList<FullMenuItem> = ArrayList()
     lateinit var requestQueue: RequestQueue
     private var checkoutFragment: CheckoutFragment = CheckoutFragment()
     private val GSON = Gson()
@@ -51,7 +51,7 @@ class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInte
             fmi.price = "99.99$"
             fmi.options = options
             fmi.name = item.name
-            fmi.specs = mAlertDialog.specsText.text.toString()
+            fmi.specs = mAlertDialog.specsVal.text.toString()
 
             order.add(fmi)
             mAlertDialog.dismiss()
@@ -66,7 +66,6 @@ class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInte
 
         var fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.host_fragment, FoodOptionFragment())
-        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
         }
 
