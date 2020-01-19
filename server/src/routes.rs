@@ -10,10 +10,11 @@ use gotham::state::FromState;
 use serde::{Deserialize};
 use gotham_derive::StateData;
 use gotham_derive::StaticResponseExtender;
+use crate::model::MenuItem;
 
 #[derive(Deserialize, StateData, StaticResponseExtender)]
 struct IdPathExtractor {
-    id: i32,
+    id: String,
 }
 
 pub fn index(state: State) -> (State, impl IntoResponse) {
@@ -22,16 +23,24 @@ pub fn index(state: State) -> (State, impl IntoResponse) {
 
 pub fn restos(state: State) -> (State, impl IntoResponse) {
     let json_str = {
-        let state = AppData::borrow_from(&state);
-        let restos = state.restos.lock().unwrap();
-        serde_json::to_string(&*restos).unwrap()
+        let data = AppData::borrow_from(&state);
+        let data = data.data.lock().unwrap();
+        serde_json::to_string(&(*data).restos).unwrap()
     };
     (state, (mime::APPLICATION_JSON, json_str))
 }
 
 
-pub fn menus(state: State) -> (State, impl IntoResponse) {
-    let json_str = "[{\"id\":\"1\", \"name\": \"Steak\", \"description\": \"Un gros steak\", \"vegan\": false, \"vege\": false, \"carbon_footprint\": \"Major\"}]";
+pub fn menus(mut state: State) -> (State, impl IntoResponse) {
+    let id_extractor = IdPathExtractor::take_from(&mut state);
+     let json_str = {
+        let data = &*AppData::borrow_from(&state).data.lock().unwrap();
+         let plats: Vec<&MenuItem> =data.plats.iter()
+            .filter(|plat| { plat.id_resto == id_extractor.id })
+            .collect();
+         serde_json::to_string(&plats).unwrap()
+    };
+
     (state, (mime::APPLICATION_JSON, json_str))
 }
 
@@ -53,8 +62,8 @@ pub fn create_router() -> Router {
     build_router(chain, pipeline, |route| {
         route.get("/").to(index);
         route.get("/restos").to(restos);
-        route.get("/menus/:id").to(menus);
+        route.get("/menus/:id").with_path_extractor::<IdPathExtractor>().to(menus);
         route.post("/order").to(order);
-        route.get("/orders/:id").to(orders);
+        route.get("/orders/:id").with_path_extractor::<IdPathExtractor>().to(orders);
     })
 }
