@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.isVisible
 import ca.teamrocket.polyeats.R
 import ca.teamrocket.polyeats.network.models.FullMenuItem
 import ca.teamrocket.polyeats.network.models.MenuItem
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.activity_resto.*
-import kotlinx.android.synthetic.main.fragment_foodoption_list.*
+
 import kotlinx.android.synthetic.main.fragment_popup_menu_item.*
+
+
 
 
 class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInteractionListener, CheckoutFragment.OnListFragmentInteractionListener {
@@ -63,12 +63,20 @@ class RestoActivity : AppCompatActivity(), FoodOptionFragment.OnListFragmentInte
         //.navigationItem.title = @"The title"
         // activity?.intent?.getSerializableExtra("Resto") as Resto
         setContentView(R.layout.activity_resto)
+
+        var fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.host_fragment, FoodOptionFragment())
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
         }
 
     fun swapFrag(){
         val bundle = Bundle()
         bundle.putString("order", GSON.toJson(order))
         checkoutFragment.arguments = bundle
-        supportFragmentManager.beginTransaction().replace(R.id.host_fragment, checkoutFragment, "checkout").addToBackStack(null).commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.host_fragment, checkoutFragment, "checkout")
+            .addToBackStack(null)
+            .commit()
     }
     }

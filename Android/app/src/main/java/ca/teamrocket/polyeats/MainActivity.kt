@@ -25,6 +25,7 @@ import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.View
+import com.mapbox.mapboxsdk.Mapbox
 
 
 class MainActivity : AppCompatActivity(),
@@ -35,7 +36,9 @@ class MainActivity : AppCompatActivity(),
     lateinit var requestQueue: RequestQueue
     var restoId = "-1"
     var currResto: Resto? = null
-    private val buttonClick = AlphaAnimation(1f, 0.8f)
+    //private val buttonClick = AlphaAnimation(1f, 0.8f)
+//    lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onListFragmentInteraction(item: MenuItem?) {
         // startAnimation(buttonClick)
@@ -68,6 +71,10 @@ class MainActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         if (supportActionBar != null)
             supportActionBar?.hide()
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        Mapbox.getInstance(this, "pk.eyJ1IjoidWx0aW1hdGVnYW1lcjg0IiwiYSI6ImNrNWszcGZmNTBhM3Yza3FsMmhhY3RvbjEifQ.yvR1ICDa2Hn6z05setMxrQ")
+        val intent = Intent(this, IndoorMapActivity::class.java).apply {}
+        startActivity(intent)
 
         requestQueue = Volley.newRequestQueue(this)
         setContentView(R.layout.activity_main)

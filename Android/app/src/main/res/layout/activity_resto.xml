@@ -7,7 +7,6 @@
 
     <FrameLayout
         android:id="@+id/host_fragment"
-        android:name="ca.teamrocket.polyeats.restoActivity.FoodOptionFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
