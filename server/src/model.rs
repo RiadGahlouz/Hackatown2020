@@ -2,6 +2,7 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use serde::{Serialize, Deserialize};
 use gotham_derive::StateData;
+use chrono::offset::TimeZone;
 
 #[derive(Serialize, Deserialize)]
 pub struct Resto {
@@ -25,6 +26,7 @@ pub struct MenuItem {
 pub struct Order {
     pub id: String,
     pub menu_item_ids: Vec<String>,
+    pub date: chrono::DateTime<chrono::Local>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -313,6 +315,7 @@ impl AppData {
             Order {
                 id: "0".to_string(),
                 menu_item_ids: vec!["22".to_string()],
+                date: chrono::Local.ymd(2020, 1, 8).and_hms_milli(9, 10, 11, 12),
             }
         ];
 

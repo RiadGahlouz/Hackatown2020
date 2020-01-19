@@ -82,6 +82,7 @@ fn insert_order(valid_body: Chunk, state: &mut State) -> Result<Response<Body>, 
         data.orders.push(Order {
             id: "2".to_string(),
             menu_item_ids: order.menu_item_ids,
+            date: chrono::Local::now().into(),
         });
     }
 
