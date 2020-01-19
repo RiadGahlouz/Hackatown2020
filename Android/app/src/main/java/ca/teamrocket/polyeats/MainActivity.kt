@@ -1,5 +1,6 @@
 package ca.teamrocket.polyeats
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,7 @@ import ca.teamrocket.polyeats.searchFragment.SearchFragment
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.mapbox.mapboxsdk.Mapbox
 
 
 class MainActivity : AppCompatActivity(),
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity(),
     SearchFragment.OnListFragmentInteractionListener{
 
     lateinit var requestQueue: RequestQueue
+//    lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onListFragmentInteraction(item: Suggestion?) {
         Log.d("SEARCH", "click")
@@ -39,6 +42,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        Mapbox.getInstance(this, "pk.eyJ1IjoidWx0aW1hdGVnYW1lcjg0IiwiYSI6ImNrNWszcGZmNTBhM3Yza3FsMmhhY3RvbjEifQ.yvR1ICDa2Hn6z05setMxrQ")
+        val intent = Intent(this, IndoorMapActivity::class.java).apply {}
+        startActivity(intent)
+
         requestQueue = Volley.newRequestQueue(this)
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

@@ -3,4 +3,5 @@
     <string name="title_resto">Restaurants</string>
     <string name="title_search">Search</string>
     <string name="title_history">History</string>
+    <string name="title_activity_indoor_map">IndoorMapActivity</string>
 </resources>
