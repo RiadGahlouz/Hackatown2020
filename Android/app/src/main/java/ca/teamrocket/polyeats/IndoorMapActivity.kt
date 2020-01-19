@@ -42,7 +42,7 @@ import kotlin.math.pow
 
 class IndoorMapActivity : AppCompatActivity() {
     companion object {
-        const val AM_I_THE_DELIVERY_GUY = true
+        const val AM_I_THE_DELIVERY_GUY = false
         // {"lat":45.5044624,"lon":-73.614625,"alt":105.0,"accv":2.0,"accr":16,"speed":0.7}
     }
 
