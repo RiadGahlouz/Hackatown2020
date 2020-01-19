@@ -36,6 +36,7 @@ pub struct Position {
     alt: f64,
     accv: f64,
     accr: f64,
+    speed: f64,
 }
 
 pub struct Data {
@@ -320,7 +321,7 @@ impl AppData {
         ];
 
         AppData {
-            data: Arc::new(Mutex::new(Data { restos, plats, orders, delivery_pos: Position { lat: 0., lon: 0., alt: 0., accr: 0., accv: 0.} }))
+            data: Arc::new(Mutex::new(Data { restos, plats, orders, delivery_pos: Position { lat: 0., lon: 0., alt: 0., accr: 0., accv: 0., speed: 0.} }))
         }
     }
 }
