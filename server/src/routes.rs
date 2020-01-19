@@ -3,7 +3,6 @@ use gotham::router::builder::*;
 use gotham::state::State;
 use gotham::handler::IntoResponse;
 use gotham::middleware::state::StateMiddleware;
-use gotham::pipeline::single_middleware;
 use gotham::pipeline::single::single_pipeline;
 use crate::model::AppData;
 use gotham::state::FromState;
@@ -23,6 +22,8 @@ use gotham::handler::HandlerError;
 use hyper::Response;
 use hyper::Chunk;
 use crate::model::Position;
+use gotham::pipeline::new_pipeline;
+use crate::utf8_middleware;
 
 #[derive(Deserialize, StateData, StaticResponseExtender)]
 struct IdPathExtractor {
@@ -160,7 +161,10 @@ pub fn get_position(state: State) -> (State, impl IntoResponse) {
 
 pub fn create_router() -> Router {
     let state = AppData::new();
-    let (chain, pipeline) = single_pipeline(single_middleware(StateMiddleware::new(state)));
+    let (chain, pipeline) = single_pipeline(new_pipeline()
+        .add(StateMiddleware::new(state))
+        .add(utf8_middleware::Utf8Middleware)
+        .build());
 
     build_router(chain, pipeline, |route| {
         route.get("/").to(index);
