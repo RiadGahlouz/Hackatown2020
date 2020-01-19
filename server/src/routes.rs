@@ -22,6 +22,7 @@ use crate::model::Order;
 use gotham::handler::HandlerError;
 use hyper::Response;
 use hyper::Chunk;
+use crate::model::Position;
 
 #[derive(Deserialize, StateData, StaticResponseExtender)]
 struct IdPathExtractor {
@@ -113,6 +114,47 @@ pub fn all_orders(state: State) -> (State, impl IntoResponse) {
 }
 
 
+pub fn set_position(mut state: State) -> Box<HandlerFuture> {
+    fn set_internal(valid_body: Chunk, state: &mut State) -> Result<Response<Body>, HandlerError> {
+        let body_content = String::from_utf8(valid_body.to_vec()).unwrap();
+        {
+            let pos = serde_json::from_str::<Position>(&body_content)
+                .map_err(|e| { e.into_handler_error() })?;
+
+            let data = AppData::borrow_from(&state);
+            let mut data = data.data.lock().unwrap();
+            data.delivery_pos = pos;
+        }
+
+        Ok(create_empty_response(&state, StatusCode::OK))
+
+    }
+
+    let f = Body::take_from(&mut state)
+        .concat2()
+        .then(|full_body| match full_body {
+            Ok(valid_body) => {
+                match set_internal(valid_body, &mut state) {
+                    Ok(res) => future::ok((state, res)),
+                    Err(err) => future::err((state, err))
+                }
+
+            }
+            Err(e) => future::err((state, e.into_handler_error())),
+        });
+    Box::new(f)
+}
+
+
+pub fn get_position(state: State) -> (State, impl IntoResponse) {
+    let json_str = {
+        let data = AppData::borrow_from(&state);
+        let data = data.data.lock().unwrap();
+        serde_json::to_string(&(*data).delivery_pos).unwrap()
+    };
+    (state, (mime::APPLICATION_JSON, json_str))
+}
+
 
 
 pub fn create_router() -> Router {
@@ -126,5 +168,7 @@ pub fn create_router() -> Router {
         route.get("/menus").to(get_all_menus);
         route.post("/order").to(order);
         route.get("/orders").to(all_orders);
+        route.post("/set_pos").to(set_position);
+        route.get("/get_pos").to(get_position);
     })
 }

@@ -25,10 +25,20 @@ pub struct Order {
     pub menu_item_ids: Vec<String>,
 }
 
+#[derive(Serialize, Deserialize)]
+pub struct Position {
+    lat: f64,
+    lon: f64,
+    alt: f64,
+    accv: f64,
+    accr: f64,
+}
+
 pub struct Data {
     pub restos: Vec<Resto>,
     pub plats: Vec<MenuItem>,
     pub orders: Vec<Order>,
+    pub delivery_pos: Position,
 }
 
 #[derive(Clone, StateData)]
@@ -221,7 +231,7 @@ impl AppData {
         ];
 
         AppData {
-            data: Arc::new(Mutex::new(Data { restos, plats, orders }))
+            data: Arc::new(Mutex::new(Data { restos, plats, orders, delivery_pos: Position { lat: 0., lon: 0., alt: 0., accr: 0., accv: 0.} }))
         }
     }
 }
